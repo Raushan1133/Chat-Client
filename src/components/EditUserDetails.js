@@ -47,7 +47,7 @@ const EditUserDetails = ({onClose,user}) => {
         const file = e.target.files[0]
 
         const uploadPhoto = await uploadFile(file)
-
+        
         setData((preve)=>{
         return{
             ...preve,
@@ -69,7 +69,6 @@ const EditUserDetails = ({onClose,user}) => {
                 withCredentials : true
             })
 
-            console.log('response',response)
             taost.success(response?.data?.message)
             
             if(response.data.success){
@@ -78,7 +77,7 @@ const EditUserDetails = ({onClose,user}) => {
             }
          
         } catch (error) {
-            taost.error("Cant update profile pic at the moment ! ")
+            taost.error("Cant update profile at the moment ! ")
         }
     }
   return (
