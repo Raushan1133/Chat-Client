@@ -68,8 +68,6 @@ const CheckPasswordPage = () => {
     }
   }
 
-  console.log(data.password)
-
   return (
     <div className='mt-5'>
         <div className='bg-white w-full max-w-md  rounded overflow-hidden p-4 mx-auto'>

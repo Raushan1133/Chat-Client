@@ -9,13 +9,17 @@ import io from 'socket.io-client'
 
 const Home = () => {
   // const user = useSelector(state => state.user)
+  const token = localStorage.getItem('token')
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-
+  
   // console.log('user',user)
   const fetchUserDetails = async()=>{
     try {
+      if(!token){
+        navigate('/email');
+      }
         const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`
         const response = await axios({
           url : URL,
