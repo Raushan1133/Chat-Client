@@ -46,8 +46,7 @@ const Home = () => {
   useEffect(()=>{
     const socketConnection = io(process.env.REACT_APP_BACKEND_URL,{
       auth : {
-        token : localStorage.getItem('token'),
-        withCredentials:true
+        token : localStorage.getItem('token')
       },
     })
 
