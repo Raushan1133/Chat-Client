@@ -51,6 +51,12 @@ const ResetPasswordPage = () => {
             setLoading(false);
             if(response.data.success){
                 toast.success(response.data.message);
+                setData(()=>{
+                    return{
+                        password:"",
+                        confirm_password:""
+                    }
+                })
             }else{
                 toast.error(response.data.message);
             }
