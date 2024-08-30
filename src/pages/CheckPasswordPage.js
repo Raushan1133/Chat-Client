@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
-// import { IoClose } from "react-icons/io5";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-// import uploadFile from '../helpers/uploadFile';
 import axios from 'axios'
 import toast from 'react-hot-toast';
-// import { PiUserCircle } from "react-icons/pi";
 import Avatar from '../components/Avatar';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../redux/userSlice';
+import { FaEye } from 'react-icons/fa'
+import { FaEyeSlash } from 'react-icons/fa'
 
 const CheckPasswordPage = () => {
   const [data,setData] = useState({
     password : "",
     userId : ""
   })
+  const[loading,setLoading] = useState(false);
+  const[showPassword,setShowPassword] = useState(false);
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
@@ -42,6 +43,7 @@ const CheckPasswordPage = () => {
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`
 
     try {
+      setLoading(true)
         const response = await axios({
           method :'post',
           url : URL,
@@ -51,6 +53,7 @@ const CheckPasswordPage = () => {
           },
           withCredentials : true
         })
+        setLoading(false);
 
         toast.success(response.data.message)
 
@@ -64,6 +67,7 @@ const CheckPasswordPage = () => {
             navigate('/')
         }
     } catch (error) {
+      setLoading(false);
         toast.error(error?.response?.data?.message)
     }
   }
@@ -79,7 +83,7 @@ const CheckPasswordPage = () => {
                 <Avatar
                   width={70}
                   height={70}
-                  name={location?.state?.name}
+                  name={location?.state?.name.trim()}
                   imageUrl={location?.state?.profile_pic}
                 />
                 <h2 className='font-semibold text-lg mt-1'>{location?.state?.name}</h2>
@@ -90,22 +94,35 @@ const CheckPasswordPage = () => {
 
           <div className='flex flex-col gap-1'>
                 <label htmlFor='password'>Password :</label>
+                <div className='relative'>
                 <input
-                  type='password'
+                  type={showPassword ? "text" : "password"}
                   id='password'
                   name='password'
                   placeholder='enter your password' 
-                  className='bg-slate-100 px-2 py-1 focus:outline-primary'
+                  className='bg-slate-100 px-2 py-1 w-full focus:outline-primary'
                   value={data.password}
                   onChange={handleOnChange}
                   required
                 />
+                 <div className='cursor-pointer text-xl absolute top-1.5 right-1 ' onClick={()=>{setShowPassword(!showPassword)}}>
+                            <span>
+                                {
+                                    showPassword ? (
+                                        <FaEyeSlash />
+                                    ): (
+                                        <FaEye />
+                                    )
+                                }
+                            </span>
+                  </div>
+                  </div>
               </div>
 
               <button
                className='bg-primary text-lg  px-4 py-1 hover:bg-secondary rounded mt-2 font-bold text-white leading-relaxed tracking-wide'
               >
-                Login
+                {loading ? <div className='flex justify-center items-center py-1'><div className='h-6 w-6 rounded-full border-t-transparent animate-spin border-2 border-white'></div></div> : <div>Login</div>}
               </button>
 
           </form>

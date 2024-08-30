@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy" : "https://chat-server-three-sable.vercel.app/",
+  "proxy": "https://chat-server-three-sable.vercel.app/",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
     "@testing-library/jest-dom": "^5.17.0",
@@ -17,6 +17,7 @@
     "react-redux": "^9.1.1",
     "react-router-dom": "^6.23.0",
     "react-scripts": "5.0.1",
+    "react-simple-typewriter": "^5.0.1",
     "socket.io-client": "^4.7.5",
     "web-vitals": "^2.1.4"
   },

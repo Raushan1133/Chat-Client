@@ -10,7 +10,7 @@ const Avatar = ({userId,name,imageUrl,width,height}) => {
     let avatarName = ""
 
     if(name){
-      const splitName = name?.split(" ")
+      const splitName = name?.trim().split(" ")
 
       if(splitName.length > 1){
         avatarName = splitName[0][0]+splitName[1][0]

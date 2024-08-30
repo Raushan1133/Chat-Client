@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-// import { IoClose } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
-// import uploadFile from '../helpers/uploadFile';
 import axios from 'axios'
 import toast from 'react-hot-toast';
 import { PiUserCircle } from "react-icons/pi";
+import { Typewriter } from 'react-simple-typewriter';
 
 const CheckEmailPage = () => {
   const [data,setData] = useState({
     email : "",
   })
+  const [loading,setLoading] = useState(false);
   const navigate = useNavigate()
 
   const handleOnChange = (e)=>{
@@ -30,9 +30,11 @@ const CheckEmailPage = () => {
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/email`
 
     try {
+        setLoading(true);
         const response = await axios.post(URL,data)
-
+        
         toast.success(response.data.message)
+        setLoading(false);
 
         if(response.data.success){
             setData({
@@ -43,6 +45,7 @@ const CheckEmailPage = () => {
             })
         }
     } catch (error) {
+      setLoading(false);
         toast.error(error?.response?.data?.message)
     }
   }
@@ -51,6 +54,15 @@ const CheckEmailPage = () => {
   return (
     <div className='mt-5'>
         <div className='bg-white w-full max-w-md  rounded overflow-hidden p-4 mx-auto'>
+        <h3 className='text-primary font-semibold'><Typewriter
+            words={['Welcome to Talkera!']}
+            loop={false}
+            cursor
+            cursorStyle='_'
+            typeSpeed={70}
+            deleteSpeed={50}
+            delaySpeed={1000}
+            /></h3>
 
             <div className='w-fit mx-auto mb-2'>
                 <PiUserCircle
@@ -58,7 +70,7 @@ const CheckEmailPage = () => {
                 />
             </div>
 
-          <h3>Welcome to Chat app!</h3>
+         
 
           <form className='grid gap-4 mt-3' onSubmit={handleSubmit}>
               
@@ -80,12 +92,16 @@ const CheckEmailPage = () => {
               <button
                className='bg-primary text-lg  px-4 py-1 hover:bg-secondary rounded mt-2 font-bold text-white leading-relaxed tracking-wide'
               >
-                Let's Go
+                {loading ? <div className='flex justify-center items-center py-1'><div className='h-6 w-6 rounded-full border-t-transparent animate-spin border-2 border-white'></div></div> : <div>Next</div>}
               </button>
 
-          </form>
+              <Link to={'/register'}
+               className='bg-primary text-center text-lg  px-4 py-1 hover:bg-secondary rounded mt-2 font-bold text-white leading-relaxed tracking-wide'
+              >
+                create new account
+              </Link>
 
-          <p className='my-3 text-center'>New User ? <Link to={"/register"} className='hover:text-primary font-semibold'>Register</Link></p>
+          </form>
         </div>
     </div>
   )
